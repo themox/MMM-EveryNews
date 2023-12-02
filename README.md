@@ -10,7 +10,7 @@
 
 ## Installation
 
-* `git clone https://github.com/mykle1/MMM-EveryNews` into the `~/MagicMirror/modules` directory.
+* `git clone https://github.com/themox/MMM-EveryNews` into the `~/MagicMirror/modules` directory.
 * Get FREE API key --> https://newsapi.org/register
 * Annotated .css file included for your convenience.
 
