@@ -20,13 +20,13 @@ module.exports = NodeHelper.create({
             method: 'GET'
         }, (error, response, body) => {
             if (!error && response.statusCode == 200) {
-                var result = JSON.parse(body).articles;
+                var result = JSON.parse(body).articles;              
                 this.sendSocketNotification('NATGEO_RESULT', result);
             } else {
-		// add error checking so the user gets a visible error they will need to do some troubleshooting
-		// this will be in lieu of the infinite loading indicator
-		var errorString = "Error loading NewsAPI data. <br>  Error # " + response.statusCode + ", " + JSON.parse(body).code + "<br>" + JSON.parse(body).message;
-		this.sendSocketNotification('NATGEO_ERROR', errorString);
+                // add error checking so the user gets a visible error they will need to do some troubleshooting
+                // this will be in lieu of the infinite loading indicator
+                var errorString = "Error loading NewsAPI data. <br>  Error # " + response.statusCode + ", " + JSON.parse(body).code + "<br>" + JSON.parse(body).message;
+                this.sendSocketNotification('NATGEO_ERROR', errorString);
             }
         });
     },
@@ -35,9 +35,10 @@ module.exports = NodeHelper.create({
         if (notification === 'GET_NATGEO') {
             this.getNatGeo(payload);
         }
+
         if (notification === 'CONFIG') {
-            this.config = payload;
-      //  console.log(this.config);
+                this.config = payload;
+                //console.log(this.config);
         }
     }
 });
