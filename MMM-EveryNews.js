@@ -46,7 +46,6 @@ Module.register("MMM-EveryNews", {
         return qrWrapper;
       },
 
-
     start: function() {
         Log.info("Starting module: " + this.name);
         this.sendSocketNotification('CONFIG', this.config);
@@ -127,6 +126,19 @@ Module.register("MMM-EveryNews", {
             var img = document.createElement("img");
             img.className = "photo";
             img.src = NatGeo.urlToImage;
+
+            // Handle image load failure
+            img.onerror = () => {
+                // Create a fallback <div>
+                const fallback = document.createElement("div");
+                fallback.className = "photo fallback-image";
+                fallback.innerText = "No Image Available";
+                fallback.style.height = `${this.config.qrWidth * 2 || 200}px`;
+
+                // Replace the <img> with the fallback
+                img.replaceWith(fallback);
+            };
+
             imgWrapper.appendChild(img);
 
             // Convert URL to QR Code
@@ -188,20 +200,20 @@ Module.register("MMM-EveryNews", {
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "NATGEO_RESULT") {
-	    // reset error if we get a real result
-	    this.hasError = false;
-	    this.errorText = "";
+            // reset error if we get a real result
+            this.hasError = false;
+            this.errorText = "";
             this.processNatGeo(payload);
             if (this.rotateInterval == null) {
                 this.scheduleCarousel();
             }
             this.updateDom(this.config.animationSpeed);
         } else if (notification === "NATGEO_ERROR") {
-	    // Cue up an error code and set the error message based on the returned results
-	    this.hasError = true;
-	    this.errorText = payload;
+            // Cue up an error code and set the error message based on the returned results
+            this.hasError = true;
+            this.errorText = payload;
 
-	    // Still need to cue the animation etc. so the error message gets displayed.
+            // Still need to cue the animation etc. so the error message gets displayed.
             if (this.rotateInterval == null) {
                 this.scheduleCarousel();
             }
