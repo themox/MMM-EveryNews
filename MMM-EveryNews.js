@@ -62,12 +62,13 @@ Module.register("MMM-EveryNews", {
         this.hasError = false;
         this.errorText = "";
 
-        // Dynamically assign qr-code size based on configuration
+        const style = document.createElement("style");
         style.innerHTML = `
             .MMM-EveryNews .qr-code {
                 width: ${this.config.qrWidth}px;
                 height: ${this.config.qrWidth}px;
             }`;
+        document.head.appendChild(style);
     },
 
     getDom: function() {
