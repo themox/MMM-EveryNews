@@ -92,15 +92,6 @@
       "country": "au"
     },
     {
-      "id": "axios",
-      "name": "Axios",
-      "description": "Axios are a new media company delivering vital, trustworthy news and analysis in the most efficient, illuminating and shareable ways possible.",
-      "url": "https://www.axios.com",
-      "category": "general",
-      "language": "en",
-      "country": "us"
-    },
-    {
       "id": "bbc-news",
       "name": "BBC News",
       "description": "Use BBC News for up-to-the-minute news, breaking news, video, audio and feature stories. BBC News provides trusted World and UK news as well as local and regional perspectives. Also entertainment, business, science, technology and health news.",

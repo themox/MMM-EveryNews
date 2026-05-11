@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Module: MMM-EveryNews
  *
  * originally by Mykle1; updated by themox
@@ -54,7 +54,7 @@ Module.register("MMM-EveryNews", {
         //  Set locale.
 
 	    // Initialize variables for module
-        this.NatGeo = [];
+        this.NewsChunk = [];
         this.activeItem = 0;
         this.rotateInterval = null;
         this.scheduleUpdate();
@@ -78,11 +78,11 @@ Module.register("MMM-EveryNews", {
         wrapper.style.maxWidth = this.config.maxWidth;
 
         if (!this.loaded && !this.hasError) {
-            wrapper.innerHTML = "AnyNews Presents . . .";
+            wrapper.innerHTML = "NewsAPI v2 Presents . . .";
             wrapper.classList.add("bright", "light", "small");
             return wrapper;
         } else if (!this.loaded && this.hasError) {
-	        wrapper.innerHTML = "AnyNews Presents . . .<br>" + this.errorText;
+	        wrapper.innerHTML = "NewsAPI v2 Presents . . .<br>" + this.errorText;
             wrapper.classList.add("bright", "light", "small");
             return wrapper;
 	    }
@@ -95,12 +95,12 @@ Module.register("MMM-EveryNews", {
         }
 
         // loop the obects
-        var keys = Object.keys(this.NatGeo);
+        var keys = Object.keys(this.NewsChunk);
         if (keys.length > 0) {
             if (this.activeItem >= keys.length) {
                 this.activeItem = 0;
             }
-            var NatGeo = this.NatGeo[keys[this.activeItem]];
+            var NewsChunk = this.NewsChunk[keys[this.activeItem]];
             
             const content_wrapper = document.createElement("div");
             content_wrapper.className = "everynews-wrapper";
@@ -108,13 +108,13 @@ Module.register("MMM-EveryNews", {
             // The source of the article
             var source = document.createElement("div");
             source.className = "source";
-            source.innerHTML = NatGeo.source.name;
+            source.innerHTML = NewsChunk.source.name;
             content_wrapper.appendChild(source);
 
             // The title
             var title = document.createElement("div");
             title.className = "title";
-            title.innerHTML = NatGeo.title;
+            title.innerHTML = NewsChunk.title;
             content_wrapper.appendChild(title);
 
             // The picture
@@ -126,7 +126,7 @@ Module.register("MMM-EveryNews", {
             
             var img = document.createElement("img");
             img.className = "photo";
-            img.src = NatGeo.urlToImage;
+            img.src = NewsChunk.urlToImage;
 
             // Handle image load failure
             img.onerror = () => {
@@ -143,12 +143,12 @@ Module.register("MMM-EveryNews", {
             imgWrapper.appendChild(img);
 
             // Convert URL to QR Code
-            if (this.config.useQr == true && NatGeo.url) {
+            if (this.config.useQr == true && NewsChunk.url) {
 
                 const qr_container =  document.createElement("div");
                 qr_container.className = "qr-container";
                 
-                const qr_url = this.createQRCodeElement(NatGeo.url, this.config.qrWidth);
+                const qr_url = this.createQRCodeElement(NewsChunk.url, this.config.qrWidth);
                 qr_url.className = "qr-code";
                 qr_url.classList.add("qr-code", this.config.qrPosition);
         
@@ -166,18 +166,18 @@ Module.register("MMM-EveryNews", {
             var description = document.createElement("div");
             description.className =  "description";
             if (this.config.scroll == true) {
-                description.innerHTML = '<marquee behavior="scroll" direction="left" scrollamount="'+this.config.scrollSpeed+'">' + NatGeo.description + '</marquee>';
+                description.innerHTML = '<marquee behavior="scroll" direction="left" scrollamount="'+this.config.scrollSpeed+'">' + NewsChunk.description + '</marquee>';
             } else {
-                description.innerHTML = NatGeo.description;
+                description.innerHTML = NewsChunk.description;
             }
             wrapper.appendChild(description);         
 		}
         return wrapper;
     },
 
-    processNatGeo: function(data) {
-        this.NatGeo = data;
-      console.log(this.NatGeo);
+    processNews: function(data) {
+        this.NewsChunk = data;
+      console.log(this.NewsChunk);
         this.loaded = true;
     },
 
@@ -190,26 +190,26 @@ Module.register("MMM-EveryNews", {
 
     scheduleUpdate: function() {
         setInterval(() => {
-            this.getNatGeo();
+            this.getNews();
         }, this.config.updateInterval);
-        this.getNatGeo(this.config.initialLoadDelay);
+        this.getNews(this.config.initialLoadDelay);
     },
 
-    getNatGeo: function() {
-        this.sendSocketNotification('GET_NATGEO');
+    getNews: function() {
+        this.sendSocketNotification('GET_NEWS');
     },
 
     socketNotificationReceived: function(notification, payload) {
-        if (notification === "NATGEO_RESULT") {
+        if (notification === "NEWS_RESULT") {
             // reset error if we get a real result
             this.hasError = false;
             this.errorText = "";
-            this.processNatGeo(payload);
+            this.processNews(payload);
             if (this.rotateInterval == null) {
                 this.scheduleCarousel();
             }
             this.updateDom(this.config.animationSpeed);
-        } else if (notification === "NATGEO_ERROR") {
+        } else if (notification === "NEWS_ERROR") {
             // Cue up an error code and set the error message based on the returned results
             this.hasError = true;
             this.errorText = payload;

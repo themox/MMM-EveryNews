@@ -1,0 +1,43 @@
+{
+  "name": "mmm-everynews",
+  "version": "1.0.0",
+  "description": "Module for the [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror/) smart mirror.",
+  "main": "MMM-EveryNews.js",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "prepare": "simple-git-hooks"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/themox/MMM-EveryNews.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "news",
+    "utility"
+  ],
+  "author": "Joe Duchesneau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/themox/MMM-EveryNews/issues"
+  },
+  "homepage": "https://github.com/themox/MMM-EveryNews#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.3.0",
+    "globals": "^17.6.0",
+    "lint-staged": "^17.0.4",
+    "simple-git-hooks": "^2.13.1"
+  },
+  "lint-staged": {
+    "*.{js,mjs}": "eslint --fix"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "dependencies": {
+    "newsapi": "^2.4.1"
+  }
+}
