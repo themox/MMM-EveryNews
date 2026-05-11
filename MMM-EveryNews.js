@@ -12,14 +12,15 @@ Module.register("MMM-EveryNews", {
         header: "MMM-EveryNews",                // Any text you want. useHeader must be true
         maxWidth: "350px",                      // should be bigger than qrWidth or you'll have problems
         scroll: true,
+        scrollSpeed: 3,
         animationSpeed: 3000,                   // fade speed
         initialLoadDelay: 4250,
         retryDelay: 2500,
-        rotateInterval:  5 * 60 * 1000,
+        rotateInterval:  40 * 1000,
         updateInterval: 30 * 60 * 1000,
     	userAgent: "MagicMirror",		        // keeping default simple but can be customized by the user; cannot be blank
         qrPosition: "top-left",                // Options: top-left, top-right, bottom-left, bottom-right
-        useQr: false,
+        useQr: true,
         qrWidth: 120,
     },
 
@@ -49,7 +50,6 @@ Module.register("MMM-EveryNews", {
     start: function() {
         Log.info("Starting module: " + this.name);
         this.sendSocketNotification('CONFIG', this.config);
-        requiresVersion: "2.1.0",
 
         //  Set locale.
 
@@ -188,10 +188,14 @@ Module.register("MMM-EveryNews", {
         }, this.config.rotateInterval);
     },
 
-    scheduleUpdate: function() {
+   scheduleUpdate: function() {
         setInterval(() => {
             this.getNews();
         }, this.config.updateInterval);
+
+        setTimeout(() => {
+            this.getNews();
+        }, this.config.initialLoadDelay);
         this.getNews(this.config.initialLoadDelay);
     },
 
@@ -220,6 +224,5 @@ Module.register("MMM-EveryNews", {
             }
             this.updateDom(this.config.animationSpeed);
 	    }
-        this.updateDom(this.config.initialLoadDelay);
     },
 });

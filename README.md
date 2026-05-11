@@ -1,4 +1,4 @@
-## MMM-EveryNews
+# MMM-EveryNews
 
 * Over 30,000 News sources!
 * Choose up to 10 at once.
@@ -7,7 +7,10 @@
 
 ## Examples
 
-![](images/1.png), ![](images/2.png), ![](images/3.png), ![](images/4.png),
+![](images/1.png)<br/>
+![](images/2.png)<br/>
+![](images/3.png)<br/>
+![](images/4.png)
 
 ## Installation
 1. To install the module, use your terminal to navigate to your MagicMirror's modules folder. If you are using the default installation directory, use the command:<br />`cd ~/MagicMirror/modules`
@@ -33,20 +36,43 @@ From the MagicMirror\modules\MMM-Oura2\ path:
       sources: 'bbc-news,cbs-news',                  // any source from https://newsapi.org/sources; up to 10 at once
       lang: 'en',                                    // see https://newsapi.org/ for supported languages
       scroll: true,                                  // description scroll or static
-      scrollSpeed: "3",                              // if scroll is true
+      scrollSpeed: 3,                                // if scroll is true
       apiKey: 'YOUR API KEY GOES HERE',              // free API key from https://newsapi.org/register
       useHeader: true,                               // False if you don't want a header
       header: "Over 30,000 News Sources!",           // Any text you want. useHeader must be true
       maxWidth: "350px",
       animationSpeed: 3000,                          // fade speed
-      rotateInterval: 5 * 60 * 1000,
+      initialLoadDelay: 4250,                        // time at initial start before attempting to get articles (ms)
+      retryDelay: 2500,                              // on error, how long to wait before retrying (ms)
+      rotateInterval: 5 * 60 * 1000,                 // time between rotate to next article (ms)
+      updateInterval: 30 * 60 * 1000,                // time between updates (getting new articles from web) - recomend not smaller than this which is an update every 30 minutes (api sets daily max as 100 for free accounts)
       userAgent: "MagicMirror",                      // User-Agent for API requests in accordance with NewsAPI's requirements (can be customized to any valid UserAgent string; must not be blank)
-      qrPosition: "top-left",                // Options: top-left, top-right, bottom-left, bottom-right
-      useQr: false,                           // whether to use QR code or not; default is no.
-      qrWidth: 120,                           // width, in px, of the QR code; recommend something like 120-150px, depending on your situation
+      qrPosition: "top-left",                        // Options: top-left, top-right, bottom-left, bottom-right
+      useQr: false,                                  // whether to use QR code or not; default is no.
+      qrWidth: 120,                                  // width, in px, of the QR code; recommend something like 120-150px, depending on your situation
     }
 },
 ```
+
+| Option              | Details
+|-------------------- |--------------
+| `sources`           | *Required* - `String Array` of news sources from any of the valid ones at the [News API site](https://newsapi.org/docs/endpoints/sources)<br> Use the `id` field value for this.  e.g. `['bbc-news,cbs-news']`
+| `lang`              | *Required* - `String`; What language?  Available languages are at the same link as above, but not all sources are available in all languages.<br> e.g. `en`
+| `apiKey`            | *Required* - `String`; Your API key that you obtained free by [registering with NewsAPI](https://newsapi.org/register).
+| `scroll`            | `Boolean`; Whether you want the content to scroll or not.  <br> **Default value:** `true`
+| `scrollspeed`       | `Integer`; How fast you want the content to scroll (if scroll is true). <br> **Default value:** `3`
+| `useHeader`         | `Boolean`; Do you want to display the header or not? <br> **Default value:** `true`
+| `header`            | `String`; What the header should be if you use it. <br> **Default value:** `MMM-EveryNews`
+| `maxWidth`          | `String`; Max width in this module on screen; should align with your CSS for best performance and this value should be CSS compliant.<br> **Default value:** `350px`
+| `animationSpeed`    | `Integer`; fade speed for articles. <br> **Default value:** `3000`
+| `initialLoadDelay`  | `Integer`; value in ms; If for some reason you want the MM to delay before first trying to get articles. <br> **Default value:** `4250`
+| `retryDelay`        | `Integer`; value in ms; time to wait if the request errors out. <br>**Default value:** `2500`
+| `rotateInterval`    |`Integer`; value in ms; how long to wait before rotating to the next article. <br>**Default value:** `40 * 1000` (40s)
+| `updateInterval`    | `Integer`; value in ms; how long between sending a request to the NewsAPI to refresh articles. <br>**Default value:** `30 * 60 * 1000` (30 min)
+| `userAgent`         | `String`; Current News API requires a non-null userAgent string for all requests. <br>**Default value:** `MagicMirror`
+| `qrPosition`        | `String`; Where do you want the QR code to be displayed?  One of: [`top-left`, `top-right`, `bottom-left`, `bottom-right`]. <br>**Default value:** `top-left`
+| `useQr`             | `Boolean`; Do you want the QR code to be displayed?  <br>**Default value:** `true`
+| `qrWidth`           | `Integer`; Width (in pixels) for the qrCode; recommend something like 120-150px.  Too small will make it unreadable by your mobile device; too large will overwhelm the space available.  Height will be auto-set to same value.  <br>**Default value:** `120`
 
 ## For multiple News sources
 
