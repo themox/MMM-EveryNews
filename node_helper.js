@@ -17,42 +17,35 @@ module.exports = NodeHelper.create({
     },
 
     // Gets news
-    getNews: async function() {
+    getNews: function() {
+
         if (!this.config || !this.config.sources || !this.config.apiKey) {
-            const msg = "MMM-EveryNews: missing config";
-            console.error(msg, this.config);
-            this.sendSocketNotification("NEWS_ERROR", msg);
+            console.error("MMM-EveryNews: missing config", this.config);
             return;
         }
+        
+        var newsapi = new NewsAPI(this.config.apiKey);
 
-        try {
-            var newsapi = new NewsAPI(this.config.apiKey);
+        newsapi.v2.topHeadlines({
+            sources: this.config.sources,
+            language: this.config.lang,  
+        }).then(response => {
 
-            const response = await newsapi.v2.topHeadlines({
-                sources: this.config.sources,
-                language: this.config.lang,
-            });
-
-            if (response.status === "ok") {
-                this.sendSocketNotification("NEWS_RESULT", response.articles);
+            if (response.status == "ok") {
+                var result = response.articles;              
+                this.sendSocketNotification('NEWS_RESULT', result);
+                return;
+            } else {
+                // add error checking so the user gets a visible error they will need to do some troubleshooting
+                // this will be in lieu of the infinite loading indicator
+                var errorString = "Error loading NewsAPI data. <br>  Error # " + response.status;
+                this.sendSocketNotification('NEWS_ERROR', errorString);
+                console.log(response);
                 return;
             }
 
-            this.sendSocketNotification(
-                "NEWS_ERROR",
-                `NewsAPI error: ${response.status}`
-            );
-        } catch (err) {
-            const code = err.code || err.name || "unknown";
-            const message = err.message || String(err);
+        });
 
-            console.error("", code, message);
-
-            this.sendSocketNotification(
-                "NEWS_ERROR",
-                `NewsAPI error: ${code}<br>${message}`
-            );
-        }
     },
 
     socketNotificationReceived: function(notification, payload) {

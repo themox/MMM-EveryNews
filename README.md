@@ -13,12 +13,11 @@
 ![](images/4.png)
 
 ## Installation
-1. To install the module, use your terminal to navigate to your MagicMirror²'s modules folder. If you are using the default installation directory, use the command:<br />`cd ~/MagicMirror/modules`
+1. To install the module, use your terminal to navigate to your MagicMirror's modules folder. If you are using the default installation directory, use the command:<br />`cd ~/MagicMirror/modules`
 2. Clone the module:<br />`git clone https://github.com/themox/MMM-EveryNews`
 3. Install required apis:<br />`npm newsapi --save`
 4. Get FREE API key --> https://newsapi.org/register; add this to your config.js
 5. Update your custom.css accordingly.  Annotated .css file included for your convenience.
-* Important note: the free account has a maximum number of queries of 100 per day (Slightly more than 1x every 15 minutes).  If you are doing a lot of testing where you are restarting your MM, especially if you are not testing this module, recommend that you temporarily disable this module in so you don't get rate-limited.  If you do happen to get rate-limited, simply wait 24 hours and you'll be good to go again.  In regular operation you could easily do once every 12-24 hours and see no negative effects; in practice these news articles are not updating very frequently, and the free account has you getting all articles time-late by 24 hours anyway.
 
 ## Update Instructions
 
@@ -34,8 +33,8 @@ From the MagicMirror\modules\MMM-Oura2\ path:
     module: 'MMM-EveryNews',
     position: 'bottom center',
     config: {
-      sources: ['bbc-news,cbs-news'],                // any source from https://newsapi.org/sources; up to 10 at once
-      lang: 'en',                                    // see https://newsapi.org/ for supported languages; varies by source
+      sources: 'bbc-news,cbs-news',                  // any source from https://newsapi.org/sources; up to 10 at once
+      lang: 'en',                                    // see https://newsapi.org/ for supported languages
       scroll: true,                                  // description scroll or static
       scrollSpeed: 3,                                // if scroll is true
       apiKey: 'YOUR API KEY GOES HERE',              // free API key from https://newsapi.org/register

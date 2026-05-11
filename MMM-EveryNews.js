@@ -196,6 +196,7 @@ Module.register("MMM-EveryNews", {
         setTimeout(() => {
             this.getNews();
         }, this.config.initialLoadDelay);
+        this.getNews(this.config.initialLoadDelay);
     },
 
     getNews: function() {
