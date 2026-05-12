@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Module for the [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror/) smart mirror.",
   "main": "MMM-EveryNews.js",
+  "type": "commonjs",
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
